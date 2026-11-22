@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="meta-title">Trang Web Của Tôi - Không Gian Chia Sẻ Cá Nhân</title>
+    <meta id="meta-description" name="description" content="Đây là trang web cá nhân của tôi — nơi lưu giữ và chia sẻ những suy nghĩ, kiến thức, hình ảnh và câu chuyện đến với mọi người.">
+    <meta id="meta-keywords" name="keywords" content="blog cá nhân, chia sẻ kiến thức, nhật ký, không gian cá nhân, tài liệu">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link id="meta-canonical" rel="canonical" href="">
+
+    <!-- Open Graph / Facebook / Zalo -->
+    <meta id="og-title" property="og:title" content="Trang Web Của Tôi">
+    <meta id="og-description" property="og:description" content="Đây là trang web cá nhân của tôi — nơi lưu giữ và chia sẻ những suy nghĩ, kiến thức, hình ảnh và câu chuyện đến với mọi người.">
+    <meta property="og:type" content="website">
+    <meta id="og-url" property="og:url" content="">
+    <meta id="og-image" property="og:image" content="">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta id="tw-title" name="twitter:title" content="Trang Web Của Tôi">
+    <meta id="tw-description" name="twitter:description" content="Đây là trang web cá nhân của tôi — nơi lưu giữ và chia sẻ những suy nghĩ, kiến thức, hình ảnh và câu chuyện đến với mọi người.">
+
+    <!-- Structured Data JSON-LD (Schema.org) -->
+    <script id="schema-json-ld" type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Trang Web Của Tôi",
+      "description": "Không gian chia sẻ cá nhân",
+      "author": {
+        "@type": "Person",
+        "name": "Chủ Trang Web"
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Be Vietnam Pro & Lora -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Lora:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Be Vietnam Pro"', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        cream: {
+                            50: '#FAF8F5',
+                            100: '#F3EFEA',
+                            200: '#E6DFD5',
+                            300: '#D5CBBF',
+                        },
+                        slateink: {
+                            900: '#1E293B',
+                            700: '#334155',
+                            500: '#64748B',
+                        },
+                        tealaccent: {
+                            600: '#0F766E',
+                            700: '#115E59',
+                            50: '#F0FDFA',
+                            100: '#CCFBF1',
+                        },
+                        amberaccent: {
+                            500: '#D97706',
+                            100: '#FEF3C7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF8F5;
+            color: #1E293B;
+            scroll-behavior: smooth;
+        }
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F3EFEA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0F766E;
+        }
+        .fade-in {
+            animation: fadeIn 0.25s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-tealaccent-100 selection:text-tealaccent-700">
+
+    <!-- Toast Notification -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-30 bg-cream-50/90 backdrop-blur-md border-b border-cream-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3.5">
+                <!-- Brand -->
+                <div class="flex items-center justify-between">
+                    <a href="#" onclick="resetFilters(event)" class="flex items-center gap-2.5 group">
+                        <div class="w-9 h-9 rounded-xl bg-tealaccent-600 text-white flex items-center justify-center shadow-sm group-hover:bg-tealaccent-700 transition">
+                            <i data-lucide="bookmark" class="w-4 h-4"></i>
+                        </div>
+                        <span id="header-site-name" class="font-serif font-semibold text-xl tracking-tight text-slateink-900">Trang Web Của Tôi</span>
+                    </a>
+
+                    <!-- Mobile Controls -->
+                    <div class="flex md:hidden items-center gap-1.5">
+                        <button onclick="openPublishGoogleModal()" class="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-amberaccent-100 border border-amberaccent-500/30 text-amber-900 text-xs font-semibold hover:bg-amberaccent-500 hover:text-white transition" title="Đưa trang web lên Google">
+                            <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                            <span>Lên Google</span>
+                        </button>
+                        <button onclick="openShareModal()" class="p-2 rounded-full bg-white border border-cream-300 text-slateink-700 hover:bg-cream-100 transition" title="Lấy đường link & QR">
+                            <i data-lucide="share-2" class="w-4 h-4 text-tealaccent-600"></i>
+                        </button>
+                        <button id="mobile-admin-btn" onclick="handleAdminToggle()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition shadow-sm bg-white border-cream-300 text-slateink-700">
+                            <i data-lucide="key-round" class="w-3.5 h-3.5 text-tealaccent-600"></i>
+                            <span id="mobile-admin-text">Chủ trang</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search, Publish to Google, Share Link & Mode Switcher -->
+                <div class="flex items-center gap-2 flex-1 md:max-w-2xl justify-end">
+                    <div class="relative flex-1">
+                        <i data-lucide="search" class="w-4 h-4 text-slateink-500 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Tìm kiếm bài viết..." 
+                            class="w-full pl-9 pr-4 py-2 bg-white border border-cream-300 rounded-full text-sm text-slateink-900 placeholder-slateink-500 focus:outline-none focus:border-tealaccent-600 focus:ring-2 focus:ring-tealaccent-600/15 transition">
+                    </div>
+
+                    <!-- Desktop Publish to Google Button -->
+                    <button onclick="openPublishGoogleModal()" class="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold bg-amberaccent-100/90 border border-amberaccent-500/35 text-amber-900 hover:bg-amberaccent-500 hover:text-white transition shadow-sm shrink-0">
+                        <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                        <span>Xuất bản lên Google</span>
+                    </button>
+
+                    <!-- Desktop Share Link Button -->
+                    <button onclick="openShareModal()" class="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium bg-white border border-cream-300 text-slateink-700 hover:border-tealaccent-600 hover:text-tealaccent-700 transition shadow-sm shrink-0">
+                        <i data-lucide="link" class="w-3.5 h-3.5 text-tealaccent-600"></i>
+                        <span>Link & QR</span>
+                    </button>
+
+                    <!-- Desktop Admin Toggle -->
+                    <button id="desktop-admin-btn" onclick="handleAdminToggle()" class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium border transition shadow-sm shrink-0 bg-white border-cream-300 text-slateink-700 hover:bg-cream-100">
+                        <i id="admin-icon" data-lucide="key-round" class="w-3.5 h-3.5 text-tealaccent-600"></i>
+                        <span id="desktop-admin-text">Thiết lập Chủ trang</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Category Filter Pills -->
+            <div class="flex items-center gap-2 overflow-x-auto pt-3 pb-0.5" id="category-filters">
+                <button onclick="setCategory('Tất cả')" data-cat="Tất cả" class="cat-btn active px-3.5 py-1.5 rounded-full text-xs font-medium bg-slateink-900 text-white transition shrink-0">Tất cả</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-7 space-y-7">
+
+        <!-- Shareable Link Banner (Giúp người dùng luôn thấy đường link trang web của mình) -->
+        <div class="bg-white border border-cream-200 rounded-2xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+            <div class="flex items-center gap-2.5 overflow-hidden">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0 animate-pulse"></span>
+                <span class="text-xs font-medium text-slateink-700 shrink-0">Đường link hiện tại:</span>
+                <code id="inline-site-url" class="text-xs text-tealaccent-700 bg-tealaccent-50 px-2.5 py-1 rounded-lg truncate font-mono select-all"></code>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 shrink-0 self-end sm:self-center">
+                <button onclick="openPublishGoogleModal()" class="px-3 py-1.5 rounded-xl bg-amberaccent-100 text-amber-900 border border-amberaccent-500/30 text-xs font-semibold hover:bg-amberaccent-500 hover:text-white transition flex items-center gap-1.5">
+                    <i data-lucide="rocket" class="w-3.5 h-3.5"></i>
+                    <span>Đưa lên Google</span>
+                </button>
+                <button onclick="copySiteLink()" class="px-3 py-1.5 rounded-xl bg-tealaccent-600 text-white text-xs font-medium hover:bg-tealaccent-700 transition flex items-center gap-1.5 shadow-sm">
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                    <span>Sao chép link</span>
+                </button>
+                <button onclick="openShareModal()" class="px-3 py-1.5 rounded-xl bg-cream-100 text-slateink-700 text-xs font-medium hover:bg-cream-200 transition flex items-center gap-1.5">
+                    <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
+                    <span>Mã QR</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Control Bar (Chỉ hiện khi đang ở Chế độ Chủ trang) -->
+        <div id="admin-status-bar" class="hidden bg-tealaccent-50 border border-tealaccent-600/30 rounded-2xl p-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3.5 fade-in">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-tealaccent-600 text-white flex items-center justify-center shrink-0">
+                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-sm text-slateink-900">Bạn đang làm chủ trang web này</h3>
+                    <p class="text-xs text-slateink-700">Toàn quyền đăng bài, chỉnh sửa SEO, xuất bản lên Google và sao lưu dữ liệu.</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 self-end lg:self-center">
+                <button onclick="openBackupModal()" class="px-3 py-1.5 bg-white text-slateink-800 border border-cream-300 rounded-xl text-xs font-medium hover:bg-cream-50 transition flex items-center gap-1.5 shadow-sm">
+                    <i data-lucide="database-backup" class="w-3.5 h-3.5 text-tealaccent-600"></i>
+                    <span>Sao lưu / Khôi phục</span>
+                </button>
+                <button onclick="openPublishGoogleModal()" class="px-3 py-1.5 bg-amberaccent-100 text-amber-900 border border-amberaccent-500/30 rounded-xl text-xs font-semibold hover:bg-amberaccent-500 hover:text-white transition flex items-center gap-1.5 shadow-sm">
+                    <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                    <span>Xuất bản lên Google</span>
+                </button>
+                <button onclick="openEditProfileModal()" class="px-3 py-1.5 bg-white text-slateink-900 border border-cream-300 rounded-xl text-xs font-medium hover:bg-cream-50 transition flex items-center gap-1.5 shadow-sm">
+                    <i data-lucide="user-cog" class="w-3.5 h-3.5 text-tealaccent-600"></i>
+                    <span>Sửa hồ sơ & SEO</span>
+                </button>
+                <button onclick="scrollToCreateForm()" class="px-3 py-1.5 bg-tealaccent-600 text-white rounded-xl text-xs font-medium hover:bg-tealaccent-700 transition flex items-center gap-1.5 shadow-sm">
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                    <span>Viết bài mới</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Hero / Profile Section -->
+        <section class="bg-cream-100/90 border border-cream-200 rounded-3xl p-6 sm:p-8 shadow-sm">
+            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                <div class="relative shrink-0">
+                    <div id="avatar-wrapper" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-4 border-white shadow-md bg-white flex items-center justify-center">
+                        <img id="profile-avatar" src="" alt="Ảnh đại diện" class="hidden w-full h-full object-cover">
+                        <div id="profile-avatar-placeholder" class="w-full h-full bg-tealaccent-50 text-tealaccent-600 flex items-center justify-center"><i data-lucide="user" class="w-9 h-9"></i></div>
+                    </div>
+                </div>
+                <div class="flex-1 text-center sm:text-left space-y-3 w-full">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-tealaccent-700">Không gian cá nhân</p>
+                            <h1 id="profile-owner-name" class="font-serif text-2xl sm:text-3xl font-semibold text-slateink-900">Chủ Trang Web</h1>
+                            <p id="profile-bio" class="text-sm text-slateink-700 leading-relaxed mt-2">Đây là trang web cá nhân của tôi — nơi lưu giữ và chia sẻ những suy nghĩ, kiến thức, hình ảnh và câu chuyện đến với mọi người.</p>
+                        </div>
+                        <button id="hero-edit-profile-btn" onclick="openEditProfileModal()" class="hidden shrink-0 px-3 py-2 rounded-xl bg-white border border-cream-300 text-xs font-medium hover:border-tealaccent-600"><i data-lucide="user-cog" class="w-3.5 h-3.5 inline mr-1"></i>Chỉnh sửa hồ sơ</button>
+                    </div>
+                    <div class="flex items-center justify-center sm:justify-start gap-2 pt-1">
+                        <a id="social-fb" href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="hidden p-2 rounded-xl bg-white border border-cream-200 text-slateink-700 hover:text-tealaccent-700"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                        <a id="social-ig" href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hidden p-2 rounded-xl bg-white border border-cream-200 text-slateink-700 hover:text-tealaccent-700"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                        <a id="social-custom" href="#" target="_blank" rel="noopener noreferrer" aria-label="Liên kết khác" class="hidden p-2 rounded-xl bg-white border border-cream-200 text-slateink-700 hover:text-tealaccent-700"><i data-lucide="external-link" class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Create post -->
+        <section id="create-post-section" class="hidden bg-white border border-cream-200 rounded-3xl p-5 sm:p-7 shadow-sm">
+            <div class="flex items-center justify-between gap-3 mb-5">
+                <div><p class="text-xs font-semibold text-tealaccent-700 uppercase tracking-wide">Khu vực quản trị</p><h2 class="font-serif text-xl font-semibold">Viết bài chia sẻ mới</h2></div>
+                <i data-lucide="square-pen" class="w-6 h-6 text-tealaccent-600"></i>
+            </div>
+            <form id="create-post-form" onsubmit="handleCreatePost(event)" class="space-y-4">
+                <div><label for="post-title" class="block text-xs font-semibold mb-1.5">Tiêu đề bài viết *</label><input id="post-title" required maxlength="160" class="w-full px-4 py-2.5 bg-cream-50 border border-cream-300 rounded-xl text-sm" placeholder="Nhập tiêu đề..."></div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div><label for="post-category" class="block text-xs font-semibold mb-1.5">Chuyên mục</label><input id="post-category" maxlength="60" class="w-full px-4 py-2.5 bg-cream-50 border border-cream-300 rounded-xl text-sm" placeholder="Ví dụ: Học tập, Nhật ký..."></div>
+                    <div><label for="post-doc-link" class="block text-xs font-semibold mb-1.5">Link tài liệu đính kèm</label><input id="post-doc-link" type="url" class="w-full px-4 py-2.5 bg-cream-50 border border-cream-300 rounded-xl text-sm" placeholder="https://..."></div>
+                </div>
+                <div><label for="post-content" class="block text-xs font-semibold mb-1.5">Nội dung *</label><textarea id="post-content" required rows="6" class="w-full px-4 py-3 bg-cream-50 border border-cream-300 rounded-xl text-sm leading-relaxed" placeholder="Viết nội dung bạn muốn chia sẻ..."></textarea></div>
+                <div><label class="block text-xs font-semibold mb-1.5" for="post-image-file">Ảnh minh họa</label><input id="post-image-file" type="file" accept="image/*" onchange="handleImageUpload(event,'post-image','post-image-preview')" class="block w-full text-xs"><input id="post-image" type="hidden"><div id="post-image-preview" class="hidden mt-3 relative max-w-xs"><img alt="Xem trước ảnh bài viết" class="w-full max-h-48 object-cover rounded-xl"><button type="button" onclick="clearImageField('post-image','post-image-preview')" class="mt-2 text-xs text-red-600">Xóa ảnh</button></div></div>
+                <label class="flex items-center gap-2 text-sm"><input id="post-pinned" type="checkbox" class="rounded"> Ghim bài viết nổi bật</label>
+                <div class="flex flex-wrap justify-end gap-2"><button type="button" onclick="resetCreateForm()" class="px-4 py-2 rounded-xl border border-cream-300 text-sm">Xóa nội dung</button><button id="submit-post-btn" type="submit" class="px-5 py-2 rounded-xl bg-tealaccent-600 text-white text-sm font-semibold hover:bg-tealaccent-700">Đăng bài viết</button></div>
+            </form>
+        </section>
+
+        <!-- Posts feed -->
+        <section class="space-y-5">
+            <div class="flex flex-wrap items-end justify-between gap-3"><div><p class="text-xs text-tealaccent-700 font-semibold uppercase tracking-wider">Bài viết mới nhất</p><h2 id="feed-heading" class="font-serif text-2xl font-semibold text-slateink-900">Nội dung chia sẻ</h2><p class="text-xs text-slateink-500 mt-1"><span id="total-posts-count">0</span> bài viết trên trang</p></div><span id="filter-status-text" class="text-xs text-slateink-500"></span></div>
+            <div id="posts-grid" class="grid sm:grid-cols-2 gap-5"></div>
+            <div id="empty-state" class="bg-white border border-dashed border-cream-300 rounded-3xl p-8 sm:p-12 text-center">
+                <div class="w-14 h-14 mx-auto rounded-2xl bg-tealaccent-50 text-tealaccent-600 flex items-center justify-center"><i data-lucide="notebook-pen" class="w-7 h-7"></i></div>
+                <h3 id="empty-title" class="font-serif text-xl font-semibold mt-4">Chưa có nội dung nào được đăng tải</h3>
+                <p id="empty-desc" class="text-sm text-slateink-500 max-w-lg mx-auto mt-2">Không gian này hiện đang trống.</p>
+                <button id="empty-admin-action-btn" onclick="handleEmptyStateAction()" class="mt-5 px-5 py-2.5 rounded-xl bg-tealaccent-600 text-white text-sm font-medium"><span id="empty-btn-text">Thiết lập quyền Chủ trang để bắt đầu</span></button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-auto border-t border-cream-200 bg-white/70">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row justify-between gap-2 text-xs text-slateink-500"><span>© <span id="footer-year"></span> <span id="footer-site-name">Trang Web Của Tôi</span>. Một không gian để lưu giữ và sẻ chia.</span><span>Được tạo bằng sự sáng tạo và tâm huyết.</span></div>
+    </footer>
+
+    <!-- Profile editor -->
+    <div id="edit-profile-modal" class="fixed inset-0 z-50 hidden bg-slateink-900/50 backdrop-blur-sm overflow-y-auto p-4">
+      <div class="max-w-xl mx-auto my-8 bg-white rounded-3xl p-6 shadow-2xl">
+        <div class="flex justify-between items-center mb-5"><h2 class="font-serif text-xl font-semibold">Hồ sơ & tối ưu tìm kiếm</h2><button type="button" onclick="closeModal('edit-profile-modal')" class="p-2 rounded-lg hover:bg-cream-100"><i data-lucide="x"></i></button></div>
+        <form onsubmit="handleSaveProfile(event)" class="space-y-4">
+          <div><label class="block text-xs font-semibold mb-1">Tên website</label><input id="edit-site-name" required maxlength="100" class="w-full px-3 py-2 bg-cream-50 border border-cream-300 rounded-xl text-sm"></div>
+          <div><label class="block text-xs font-semibold mb-1">Tên chủ trang</label><input id="edit-owner-name" required maxlength="100" class="w-full px-3 py-2 bg-cream-50 border border-cream-300 rounded-xl text-sm"></div>
+          <div><label class="block text-xs font-semibold mb-1">Giới thiệu</label><textarea id="edit-owner-bio" rows="3" maxlength="500" class="w-full px-3 py-2 bg-cream-50 border border-cream-300 rounded-xl text-sm"></textarea></div>
+          <div><label class="block text-xs font-semibold mb-1">Ảnh đại diện (chọn từ máy)</label><input id="edit-avatar-file" type="file" accept="image/*" onchange="handleImageUpload(event,'edit-owner-avatar',null)" class="w-full text-xs"><input id="edit-owner-avatar" type="hidden"></div>
+          <div class="grid sm:grid-cols-2 gap-3"><div><label class="block text-xs font-semibold mb-1">Facebook</label><input type="url" id="edit-social-fb" placeholder="https://facebook.com/..." class="w-full px-3 py-2 bg-cream-50 border border-cream-300 rounded-xl text-xs"></div><div><label class="block text-xs font-semibold mb-1">Instagram</label><input type="url" id="edit-social-ig" placeholder="https://instagram.com/..." class="w-full px-3 py-2 bg-cream-50 border border-cream-300 rounded-xl text-xs"></div></div>
+          <div><label class="block text-xs font-semibold mb-1">Liên kết khác</label><input type="url" id="edit-social-custom" placeholder="https://..." class="w-full px-3 py-2 bg-cream-50 border border-cream-300 rounded-xl text-xs"></div>
+          <div><label class="block text-xs font-semibold mb-1">Từ khóa SEO (phân cách bằng dấu phẩy)</label><input id="edit-seo-keywords" class="w-full px-3 py-2 bg-cream-50 border border-cream-300 rounded-xl text-sm"></div>
+          <div><label class="block text-xs font-semibold mb-1">URL website đã xuất bản</label><input type="url" id="edit-published-url" placeholder="https://..." class="w-full px-3 py-2 bg-cream-50 border border-cream-300 rounded-xl text-sm"></div>
+          <div><label class="block text-xs font-semibold mb-1">Đổi mã PIN quản trị (4–8 ký tự)</label><input type="password" id="edit-admin-pin" minlength="4" maxlength="8" autocomplete="new-password" class="w-full px-3 py-2 bg-cream-50 border border-cream-300 rounded-xl text-sm"></div>
+          <div class="flex justify-end gap-2 pt-3 border-t"><button type="button" onclick="closeModal('edit-profile-modal')" class="px-4 py-2 rounded-xl text-sm">Hủy</button><button type="submit" class="px-5 py-2 rounded-xl bg-tealaccent-600 text-white text-sm">Lưu thông tin</button></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit post -->
+    <div id="edit-post-modal" class="fixed inset-0 z-50 hidden bg-slateink-900/50 overflow-y-auto p-4"><div class="max-w-xl mx-auto my-8 bg-white rounded-3xl p-6 shadow-2xl"><div class="flex justify-between mb-4"><h2 class="font-serif text-xl font-semibold">Chỉnh sửa bài viết</h2><button onclick="closeModal('edit-post-modal')"><i data-lucide="x"></i></button></div>
+      <form onsubmit="handleSaveEditedPost(event)" class="space-y-3"><input type="hidden" id="edit-post-id"><input id="edit-post-title" required maxlength="160" class="w-full p-3 border rounded-xl" placeholder="Tiêu đề"><input id="edit-post-category" class="w-full p-3 border rounded-xl" placeholder="Chuyên mục"><textarea id="edit-post-content" required rows="7" class="w-full p-3 border rounded-xl" placeholder="Nội dung"></textarea><label class="block text-xs font-semibold">Link ảnh (URL hoặc dữ liệu ảnh đã tải lên)</label><input id="edit-post-image" class="w-full p-3 border rounded-xl text-sm"><label class="block text-xs font-semibold">Link tài liệu</label><input id="edit-post-doc-link" type="url" class="w-full p-3 border rounded-xl"><label class="flex gap-2 text-sm"><input id="edit-post-pinned" type="checkbox"> Ghim bài viết</label><div class="flex justify-end gap-2"><button type="button" onclick="closeModal('edit-post-modal')" class="px-4 py-2">Hủy</button><button type="submit" class="px-5 py-2 bg-tealaccent-600 text-white rounded-xl">Lưu thay đổi</button></div></form>
+    </div></div>
+
+    <!-- Post detail -->
+    <div id="post-detail-modal" class="fixed inset-0 z-50 hidden bg-slateink-900/60 overflow-y-auto p-3 sm:p-5"><div class="max-w-2xl mx-auto my-5 bg-white rounded-3xl shadow-2xl overflow-hidden"><div class="flex justify-end p-3"><button onclick="closeModal('post-detail-modal')" class="p-2 rounded-xl hover:bg-cream-100" aria-label="Đóng"><i data-lucide="x"></i></button></div><div id="detail-image-wrapper" class="hidden px-5"><img id="detail-image" alt="Ảnh bài viết" class="w-full max-h-80 object-cover rounded-2xl"></div><article class="p-5 sm:p-7"><span id="detail-category" class="text-xs font-semibold text-tealaccent-700"></span><span id="detail-date" class="text-xs text-slateink-500 ml-3"></span><h2 id="detail-title" class="font-serif text-2xl font-semibold mt-3"></h2><p id="detail-content" class="text-sm leading-7 text-slateink-700 whitespace-pre-wrap mt-4"></p><div id="detail-doc-wrapper" class="hidden mt-5 p-3 rounded-xl bg-tealaccent-50"><p class="text-xs text-slateink-600 break-all" id="detail-doc-url"></p><a id="detail-doc-btn" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm font-semibold text-tealaccent-700">Mở tài liệu đính kèm ↗</a></div><button onclick="toggleLikeCurrentPost()" class="mt-5 inline-flex items-center gap-2 text-sm text-rose-600"><i id="detail-like-icon" data-lucide="heart" class="w-4 h-4"></i><span id="detail-likes-count">0</span> lượt thích</button><div class="mt-7 border-t pt-5"><h3 class="font-semibold text-base">Bình luận (<span id="detail-comments-count">0</span>)</h3><div id="comments-list" class="space-y-2 mt-3"></div><form onsubmit="handleAddComment(event)" class="mt-4 space-y-2"><input id="comment-author" required maxlength="60" placeholder="Tên hiển thị" class="w-full p-3 border border-cream-300 rounded-xl text-sm"><textarea id="comment-text" required maxlength="1000" rows="3" placeholder="Viết bình luận..." class="w-full p-3 border border-cream-300 rounded-xl text-sm"></textarea><div class="text-right"><button type="submit" class="px-4 py-2 rounded-xl bg-tealaccent-600 text-white text-sm">Gửi bình luận</button></div></form></div></article></div></div>
+
+    <!-- Delete confirmation -->
+    <div id="delete-confirm-modal" class="fixed inset-0 z-50 hidden bg-slateink-900/50 flex items-center justify-center p-4"><div class="max-w-sm w-full bg-white rounded-2xl p-6 shadow-xl"><h3 class="font-semibold text-lg">Xóa bài viết?</h3><p class="text-sm text-slateink-500 mt-2">Bạn có chắc chắn muốn xóa bài viết này? Thao tác này không thể hoàn tác.</p><div class="flex justify-end gap-2 mt-5"><button onclick="closeModal('delete-confirm-modal')" class="px-4 py-2 text-sm">Hủy</button><button id="confirm-delete-btn" class="px-4 py-2 rounded-xl bg-red-600 text-white text-sm">Xóa bài</button></div></div></div>
+
+    <!-- Backup / restore -->
+    <div id="backup-modal" class="fixed inset-0 z-50 hidden bg-slateink-900/50 overflow-y-auto p-4"><div class="max-w-lg mx-auto my-10 bg-white rounded-3xl p-6 shadow-xl"><div class="flex justify-between"><h2 class="font-serif text-xl font-semibold">Sao lưu & khôi phục</h2><button onclick="closeModal('backup-modal')"><i data-lucide="x"></i></button></div><p class="text-sm text-slateink-500 mt-2">Tải hồ sơ và bài viết về máy dưới dạng JSON. Hãy giữ tệp này ở nơi an toàn.</p><button onclick="exportDataJson()" class="w-full mt-4 p-3 rounded-xl bg-tealaccent-600 text-white text-sm">Tải bản sao lưu JSON</button><div class="mt-5"><label class="block text-sm font-semibold mb-2">Khôi phục từ tệp JSON</label><input type="file" accept=".json,application/json" onchange="importDataJson(event)" class="w-full text-xs"></div><button onclick="closeModal('backup-modal')" class="mt-5 text-sm text-slateink-500">Đóng</button></div></div>
+
+    <!-- Share / QR -->
+    <div id="share-modal" class="fixed inset-0 z-50 hidden bg-slateink-900/50 flex items-center justify-center p-4"><div class="max-w-sm w-full bg-white rounded-3xl p-6 text-center shadow-xl"><div class="flex justify-between"><h2 class="font-serif text-xl font-semibold">Chia sẻ website</h2><button onclick="closeModal('share-modal')"><i data-lucide="x"></i></button></div><div id="qrcode-container" class="my-5 flex justify-center"></div><input id="share-url-input" readonly class="w-full p-3 text-xs border rounded-xl font-mono"><button onclick="copySiteLink()" class="w-full mt-3 p-3 bg-tealaccent-600 text-white rounded-xl text-sm">Sao chép đường link</button></div></div>
+
+    <!-- Publish / Google tools -->
+    <div id="publish-google-modal" class="fixed inset-0 z-50 hidden bg-slateink-900/50 overflow-y-auto p-4"><div class="max-w-xl mx-auto my-8 bg-white rounded-3xl p-6 shadow-xl"><div class="flex justify-between"><h2 class="font-serif text-xl font-semibold">Xuất bản & đưa website lên Google</h2><button onclick="closeModal('publish-google-modal')"><i data-lucide="x"></i></button></div><p class="text-sm text-slateink-500 mt-2">Nhập URL sau khi bạn đã triển khai website lên dịch vụ lưu trữ. Các tệp SEO chỉ hỗ trợ công cụ tìm kiếm; không tự xuất bản website.</p><label class="block text-xs font-semibold mt-4 mb-1">URL website</label><input id="published-domain-input" type="url" oninput="updateGoogleSeoTools(this.value)" placeholder="https://ten-trang.netlify.app" class="w-full p-3 border rounded-xl text-sm"><button onclick="saveCustomDomain()" class="mt-3 px-4 py-2 rounded-xl bg-tealaccent-600 text-white text-sm">Lưu URL chính thức</button><div class="mt-5 p-3 rounded-xl bg-cream-50"><p class="text-xs text-slateink-500">Truy vấn kiểm tra Google</p><code id="google-site-query-preview" class="text-sm text-tealaccent-700">site:ten-trang-cua-ban.netlify.app</code></div><div class="grid sm:grid-cols-2 gap-2 mt-4"><button onclick="searchOnGoogleNow()" class="p-2.5 rounded-xl border text-sm">Kiểm tra trên Google</button><button onclick="downloadCompleteHtmlPackage()" class="p-2.5 rounded-xl border text-sm">Tải index.html</button><button onclick="downloadSitemapXml()" class="p-2.5 rounded-xl border text-sm">Tải sitemap.xml</button><button onclick="downloadRobotsTxt()" class="p-2.5 rounded-xl border text-sm">Tải robots.txt</button></div><p class="text-xs text-slateink-500 mt-4">Sau khi tải, hãy đưa index.html lên Netlify, GitHub Pages hoặc hosting của bạn. Sau đó khai báo sitemap trong Google Search Console và yêu cầu lập chỉ mục.</p></div></div>
+
+    <div id="loading-state" class="hidden fixed inset-0 z-[60] bg-cream-50/90 flex items-center justify-center"><div class="text-center"><div class="w-9 h-9 border-4 border-tealaccent-600/20 border-t-tealaccent-600 rounded-full animate-spin mx-auto"></div><p class="text-sm mt-3">Đang tải dữ liệu...</p></div></div>
+
+    <!-- 7. Modal Thiết Lập / Xác Thực Mã PIN Chủ Trang -->
+    <div id="pin-modal" class="fixed inset-0 z-50 hidden bg-slateink-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-cream-200 fade-in">
+            <div class="flex items-center justify-between mb-3">
+                <div class="w-10 h-10 rounded-xl bg-tealaccent-50 text-tealaccent-600 flex items-center justify-center">
+                    <i data-lucide="key-round" class="w-5 h-5"></i>
+                </div>
+                <button onclick="closeModal('pin-modal')" class="p-1.5 rounded-lg text-slateink-500 hover:bg-cream-100">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Tạo mã PIN lần đầu -->
+            <form id="pin-setup-view" onsubmit="handleSetupNewPin(event)" class="hidden space-y-4">
+                <div>
+                    <h3 class="font-serif text-lg font-semibold text-slateink-900">Thiết lập mã PIN Chủ trang</h3>
+                    <p class="text-xs text-slateink-500 mt-1 leading-relaxed">
+                        Tạo mã PIN từ 4 đến 8 ký tự để bảo vệ quyền chỉnh sửa và đăng bài trên trang web của bạn.
+                    </p>
+                </div>
+                <input type="password" id="new-pin-input" minlength="4" maxlength="8" required placeholder="Nhập mã PIN mới (4-8 ký tự)..."
+                    class="w-full px-4 py-2.5 bg-cream-50 border border-cream-300 rounded-xl text-sm font-mono text-slateink-900 focus:outline-none focus:border-tealaccent-600">
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-tealaccent-600 text-white text-sm font-medium hover:bg-tealaccent-700 transition shadow-sm">
+                    Xác nhận & Làm chủ trang
+                </button>
+            </form>
+
+            <!-- Đăng nhập bằng mã PIN đã tạo -->
+            <form id="pin-login-view" onsubmit="verifyAdminPin(event)" class="hidden space-y-4">
+                <div>
+                    <h3 class="font-serif text-lg font-semibold text-slateink-900">Đăng nhập Chủ trang</h3>
+                    <p class="text-xs text-slateink-500 mt-1 leading-relaxed">
+                        Nhập mã PIN quản trị của bạn để mở khóa chế độ chỉnh sửa.
+                    </p>
+                </div>
+                <input type="password" id="pin-input" minlength="4" maxlength="8" required placeholder="Nhập mã PIN của bạn..."
+                    class="w-full px-4 py-2.5 bg-cream-50 border border-cream-300 rounded-xl text-sm font-mono text-slateink-900 focus:outline-none focus:border-tealaccent-600">
+                <p id="pin-error" class="hidden text-xs text-red-600 font-medium">Mã PIN chưa chính xác. Vui lòng thử lại.</p>
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-tealaccent-600 text-white text-sm font-medium hover:bg-tealaccent-700 transition shadow-sm">
+                    Mở khóa
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDK & Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- 1. KHỞI TẠO FIREBASE ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'empty-personal-blog-vn';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+
+        let app, auth, db;
+        let currentUser = null;
+        let useCloudStorage = false;
+
+        // Trạng thái ứng dụng (Bắt đầu hoàn toàn trống: 0 bài viết)
+        let isAdmin = false;
+        let currentCategory = 'Tất cả';
+        let searchQuery = '';
+        let activePostId = null;
+        let likedPostIds = new Set();
+        let postsList = []; // Mảng rỗng hoàn toàn, không có bài mẫu
+
+        // Hồ sơ mặc định sẵn sàng để người dùng tự điền
+        let siteProfile = {
+            siteName: 'Trang Web Của Tôi',
+            ownerName: 'Chủ Trang Web',
+            bio: 'Đây là trang web cá nhân của tôi — nơi lưu giữ và chia sẻ những suy nghĩ, kiến thức, hình ảnh và câu chuyện đến với mọi người.',
+            avatar: '',
+            facebook: '',
+            instagram: '',
+            customLink: '',
+            seoKeywords: 'blog cá nhân, chia sẻ kiến thức, nhật ký, không gian cá nhân',
+            publishedUrl: '',
+            adminPin: '' // Rỗng lúc đầu để người dùng tự tạo mã PIN riêng của mình
+        };
+        // --- 2. ĐƯỜNG LINK, SEO ĐỘNG & MÃ QR CHIA SẺ ---
+        function getActiveSiteUrl() {
+            if (siteProfile.publishedUrl && siteProfile.publishedUrl.trim() !== '') {
+                return siteProfile.publishedUrl.trim();
+            }
+            return window.location.href;
+        }
+
+        function setupShareUrlDisplay() {
+            const activeUrl = getActiveSiteUrl();
+            document.getElementById('inline-site-url').textContent = activeUrl;
+            document.getElementById('share-url-input').value = activeUrl;
+            const domainInput = document.getElementById('published-domain-input');
+            if (domainInput && siteProfile.publishedUrl) {
+                domainInput.value = siteProfile.publishedUrl;
+            }
+            updateGoogleSeoTools(siteProfile.publishedUrl || '');
+        }
+
+        function updateSeoMetadata() {
+            const titleText = `${siteProfile.siteName || 'Trang Web Của Tôi'} - ${siteProfile.ownerName || 'Không Gian Cá Nhân'}`;
+            const descText = siteProfile.bio || 'Không gian chia sẻ cá nhân';
+            const keywordsText = siteProfile.seoKeywords || 'blog cá nhân, chia sẻ kiến thức';
+            const activeUrl = getActiveSiteUrl();
+
+            document.title = titleText;
+            const setMeta = (id, attr, val) => {
+                const el = document.getElementById(id);
+                if (el) el.setAttribute(attr, val);
+            };
+
+            setMeta('meta-description', 'content', descText);
+            setMeta('meta-keywords', 'content', keywordsText);
+            setMeta('meta-canonical', 'href', activeUrl);
+            setMeta('og-title', 'content', titleText);
+            setMeta('og-description', 'content', descText);
+            setMeta('og-url', 'content', activeUrl);
+            if (siteProfile.avatar) setMeta('og-image', 'content', siteProfile.avatar);
+            setMeta('tw-title', 'content', titleText);
+            setMeta('tw-description', 'content', descText);
+
+            // Cập nhật dữ liệu có cấu trúc JSON-LD (Schema.org) cho Google Search
+            const schemaEl = document.getElementById('schema-json-ld');
+            if (schemaEl) {
+                const schemaData = {
+                    "@context": "https://schema.org",
+                    "@type": "Blog",
+                    "name": siteProfile.siteName || "Trang Web Của Tôi",
+                    "description": descText,
+                    "url": activeUrl,
+                    "inLanguage": "vi-VN",
+                    "author": {
+                        "@type": "Person",
+                        "name": siteProfile.ownerName || "Chủ Trang Web"
+                    },
+                    "blogPost": postsList.slice(0, 10).map(p => ({
+                        "@type": "BlogPosting",
+                        "headline": p.title,
+                        "articleSection": p.category,
+                        "datePublished": p.createdAt ? new Date(p.createdAt).toISOString() : new Date().toISOString(),
+                        "description": (p.content || '').slice(0, 160)
+                    }))
+                };
+                schemaEl.textContent = JSON.stringify(schemaData, null, 2);
+            }
+        }
+
+        // --- TRÌNH TRỢ LÝ XUẤT BẢN & ĐƯA LÊN GOOGLE ---
+        window.openPublishGoogleModal = function() {
+            const domainInput = document.getElementById('published-domain-input');
+            if (domainInput) {
+                domainInput.value = siteProfile.publishedUrl || '';
+                updateGoogleSeoTools(domainInput.value);
+            }
+            openModal('publish-google-modal');
+            if (window.lucide) lucide.createIcons();
+        };
+
+        window.updateGoogleSeoTools = function(rawUrl) {
+            const previewEl = document.getElementById('google-site-query-preview');
+            if (!previewEl) return;
+            const cleanDomain = extractCleanDomain(rawUrl);
+            previewEl.textContent = cleanDomain ? `site:${cleanDomain}` : 'site:ten-trang-cua-ban.netlify.app';
+        };
+
+        function extractCleanDomain(urlStr) {
+            if (!urlStr || !urlStr.trim()) return '';
+            try {
+                const normalized = urlStr.trim().startsWith('http') ? urlStr.trim() : 'https://' + urlStr.trim();
+                const u = new URL(normalized);
+                return u.hostname + (u.pathname !== '/' ? u.pathname : '');
+            } catch (e) {
+                return urlStr.trim().replace(/^https?:\/\//, '');
+            }
+        }
+
+        window.saveCustomDomain = async function() {
+            const rawVal = document.getElementById('published-domain-input').value.trim();
+            let val = '';
+            if (rawVal) { try { const u = new URL(rawVal); if (!['https:', 'http:'].includes(u.protocol)) throw new Error('URL không hợp lệ'); val = u.href; } catch { showToast('URL chưa hợp lệ. Hãy nhập địa chỉ bắt đầu bằng https://'); return; } }
+            siteProfile.publishedUrl = val;
+            if (!useCloudStorage) saveLocalState();
+            setupShareUrlDisplay();
+            updateSeoMetadata();
+
+            if (useCloudStorage && currentUser) {
+                try {
+                    const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'profile');
+                    await setDoc(profileRef, siteProfile);
+                } catch (err) {
+                    console.error("Lỗi lưu tên miền:", err);
+                }
+            }
+            if (!useCloudStorage) saveLocalState();
+            showToast('Đã lưu đường link chính thức và cập nhật thẻ SEO!');
+        };
+
+        window.searchOnGoogleNow = function() {
+            const val = document.getElementById('published-domain-input').value.trim() || siteProfile.publishedUrl;
+            const cleanDomain = extractCleanDomain(val);
+            const query = cleanDomain ? `site:${cleanDomain}` : `"${siteProfile.siteName}"`;
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank', 'noopener,noreferrer');
+        };
+
+        window.downloadCompleteHtmlPackage = function() {
+            updateSeoMetadata();
+            // Đóng các modal đang mở trước khi xuất HTML sạch
+            const modals = ['publish-google-modal', 'share-modal', 'pin-modal', 'edit-profile-modal', 'backup-modal'];
+            modals.forEach(m => document.getElementById(m)?.classList.add('hidden'));
+            document.body.style.overflow = '';
+
+            const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            triggerFileDownload(htmlContent, 'index.html', 'text/html;charset=utf-8');
+
+            // Mở lại modal hướng dẫn cho người dùng tiếp tục Bước 2
+            openModal('publish-google-modal');
+            showToast('Đã tải tệp index.html chuẩn SEO về máy!');
+        };
+
+        window.downloadSitemapXml = function() {
+            const rawUrl = document.getElementById('published-domain-input').value.trim() || getActiveSiteUrl();
+            const baseUrl = rawUrl.replace(/\/$/, '');
+            const today = new Date().toISOString().split('T')[0];
+
+            const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${escapeXml(baseUrl)}/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>`;
+            triggerFileDownload(sitemap, 'sitemap.xml', 'application/xml;charset=utf-8');
+            showToast('Đã tạo và tải tệp sitemap.xml!');
+        };
+
+        window.downloadRobotsTxt = function() {
+            const rawUrl = document.getElementById('published-domain-input').value.trim() || getActiveSiteUrl();
+            const baseUrl = rawUrl.replace(/\/$/, '');
+            const robots = `User-agent: *\nAllow: /\n\nSitemap: ${baseUrl}/sitemap.xml\n`;
+            triggerFileDownload(robots, 'robots.txt', 'text/plain;charset=utf-8');
+            showToast('Đã tạo và tải tệp robots.txt!');
+        };
+
+        function triggerFileDownload(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function escapeXml(str) {
+            return String(str).replace(/[<>&'"]/g, c => ({
+                '<': '&lt;', '>': '&gt;', '&': '&amp;', '\'': '&apos;', '"': '&quot;'
+            }[c]));
+        }
+
+        // --- SAO LƯU & KHÔI PHỤC DỮ LIỆU JSON ---
+        window.openBackupModal = function() {
+            openModal('backup-modal');
+            if (window.lucide) lucide.createIcons();
+        };
+
+        window.exportDataJson = function() {
+            const backupPayload = {
+                exportedAt: new Date().toISOString(),
+                profile: siteProfile,
+                posts: postsList
+            };
+            const fileName = `sao-luu-trang-web-${new Date().toISOString().slice(0, 10)}.json`;
+            triggerFileDownload(JSON.stringify(backupPayload, null, 2), fileName, 'application/json;charset=utf-8');
+            showToast('Đã tải tệp sao lưu dữ liệu thành công!');
+        };
+
+        window.importDataJson = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (parsed.profile) {
+                        siteProfile = { ...siteProfile, ...parsed.profile };
+                        if (useCloudStorage && currentUser) {
+                            const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'profile');
+                            await setDoc(profileRef, siteProfile);
+                        }
+                        renderProfile();
+                    }
+                    if (Array.isArray(parsed.posts)) {
+                        if (useCloudStorage && currentUser) {
+                            const postsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'posts');
+                            for (const item of parsed.posts) {
+                                const { id, ...cleanPost } = item;
+                                if (id && !String(id).startsWith('post-')) {
+                                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'posts', String(id)), cleanPost);
+                                } else {
+                                    await addDoc(postsColRef, cleanPost);
+                                }
+                            }
+                        } else {
+                            postsList = parsed.posts;
+                            saveLocalState();
+                            renderCategoryFilters();
+                            renderPosts();
+                        }
+                    }
+                    closeModal('backup-modal');
+                    showToast('Đã khôi phục dữ liệu từ bản sao lưu!');
+                } catch (err) {
+                    console.error("Lỗi đọc tệp sao lưu:", err);
+                    showToast('Tệp sao lưu không hợp lệ.');
+                }
+            };
+            reader.readAsText(file);
+        };
+
+        let qrGenerated = false;
+        window.openShareModal = function() {
+            const currentUrl = getActiveSiteUrl();
+            document.getElementById('share-url-input').value = currentUrl;
+            openModal('share-modal');
+
+            if (typeof QRCode !== 'undefined') {
+                const qrContainer = document.getElementById('qrcode-container');
+                qrContainer.innerHTML = '';
+                new QRCode(qrContainer, {
+                    text: currentUrl,
+                    width: 160,
+                    height: 160,
+                    colorDark: "#1E293B",
+                    colorLight: "#FFFFFF",
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+                qrGenerated = true;
+            }
+        };
+
+        window.copySiteLink = function() {
+            const url = getActiveSiteUrl();
+            const tempInput = document.createElement('input');
+            document.body.appendChild(tempInput);
+            tempInput.value = url;
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('Đã sao chép đường link trang web của bạn!');
+        };
+
+        // --- 3. QUẢN LÝ QUYỀN CHỦ TRANG (ADMIN) ---
+        function updateAdminButtonLabels() {
+            if (isAdmin) return;
+            const hasPin = Boolean(siteProfile.adminPin && siteProfile.adminPin.trim() !== '');
+            const desktopText = document.getElementById('desktop-admin-text');
+            const mobileText = document.getElementById('mobile-admin-text');
+            const emptyBtnText = document.getElementById('empty-btn-text');
+
+            if (hasPin) {
+                desktopText.textContent = 'Đăng nhập Chủ trang';
+                mobileText.textContent = 'Chủ trang';
+                if (emptyBtnText) emptyBtnText.textContent = 'Đăng nhập Chủ trang để viết bài';
+            } else {
+                desktopText.textContent = 'Thiết lập Chủ trang';
+                mobileText.textContent = 'Làm chủ trang';
+                if (emptyBtnText) emptyBtnText.textContent = 'Thiết lập quyền Chủ trang để bắt đầu';
+            }
+        }
+
+        window.handleAdminToggle = function() {
+            if (isAdmin) {
+                setAdminState(false);
+                showToast('Đã chuyển sang Chế độ Khách xem');
+                return;
+            }
+
+            const hasPin = Boolean(siteProfile.adminPin && siteProfile.adminPin.trim() !== '');
+            if (!hasPin) {
+                // Chưa có mã PIN -> Mở giao diện tạo mã PIN riêng lần đầu
+                document.getElementById('pin-setup-view').classList.remove('hidden');
+                document.getElementById('pin-login-view').classList.add('hidden');
+                document.getElementById('new-pin-input').value = '';
+                openModal('pin-modal');
+                setTimeout(() => document.getElementById('new-pin-input').focus(), 100);
+            } else {
+                // Đã có mã PIN -> Mở giao diện nhập PIN
+                document.getElementById('pin-setup-view').classList.add('hidden');
+                document.getElementById('pin-login-view').classList.remove('hidden');
+                document.getElementById('pin-input').value = '';
+                document.getElementById('pin-error').classList.add('hidden');
+                openModal('pin-modal');
+                setTimeout(() => document.getElementById('pin-input').focus(), 100);
+            }
+        };
+
+        window.handleSetupNewPin = async function(e) {
+            e.preventDefault();
+            const newPin = document.getElementById('new-pin-input').value.trim();
+            if (newPin.length < 4) return;
+
+            siteProfile.adminPin = newPin;
+            if (!useCloudStorage) saveLocalState();
+            if (useCloudStorage && currentUser) {
+                try {
+                    const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'profile');
+                    await setDoc(profileRef, siteProfile);
+                } catch (err) {
+                    console.error("Lỗi lưu mã PIN:", err);
+                }
+            }
+
+            closeModal('pin-modal');
+            setAdminState(true);
+            showToast('Đã thiết lập mã PIN thành công! Bạn đã là Chủ trang.');
+        };
+
+        window.verifyAdminPin = function(e) {
+            e.preventDefault();
+            const entered = document.getElementById('pin-input').value.trim();
+            if (entered === siteProfile.adminPin) {
+                closeModal('pin-modal');
+                setAdminState(true);
+                showToast('Đã mở khóa quyền Chủ trang!');
+            } else {
+                document.getElementById('pin-error').classList.remove('hidden');
+            }
+        };
+
+        function setAdminState(state) {
+            isAdmin = state;
+            const desktopBtn = document.getElementById('desktop-admin-btn');
+            const desktopText = document.getElementById('desktop-admin-text');
+            const mobileText = document.getElementById('mobile-admin-text');
+            const adminIcon = document.getElementById('admin-icon');
+            const statusBar = document.getElementById('admin-status-bar');
+            const createSection = document.getElementById('create-post-section');
+            const heroEditBtn = document.getElementById('hero-edit-profile-btn');
+
+            if (isAdmin) {
+                desktopBtn.classList.remove('bg-white', 'text-slateink-700', 'border-cream-300');
+                desktopBtn.classList.add('bg-tealaccent-600', 'text-white', 'border-tealaccent-600');
+                desktopText.textContent = 'Chủ trang (Đang bật)';
+                mobileText.textContent = 'Thoát quản trị';
+                adminIcon.setAttribute('data-lucide', 'shield-check');
+                adminIcon.classList.remove('text-tealaccent-600');
+                adminIcon.classList.add('text-white');
+
+                statusBar.classList.remove('hidden');
+                createSection.classList.remove('hidden');
+                heroEditBtn.classList.remove('hidden');
+            } else {
+                desktopBtn.classList.add('bg-white', 'text-slateink-700', 'border-cream-300');
+                desktopBtn.classList.remove('bg-tealaccent-600', 'text-white', 'border-tealaccent-600');
+                adminIcon.setAttribute('data-lucide', 'key-round');
+                adminIcon.classList.add('text-tealaccent-600');
+                adminIcon.classList.remove('text-white');
+
+                statusBar.classList.add('hidden');
+                createSection.classList.add('hidden');
+                heroEditBtn.classList.add('hidden');
+                updateAdminButtonLabels();
+            }
+
+            renderPosts();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        window.handleEmptyStateAction = function() {
+            if (isAdmin) {
+                scrollToCreateForm();
+            } else {
+                handleAdminToggle();
+            }
+        };
+
+        window.scrollToCreateForm = function() {
+            const formSec = document.getElementById('create-post-section');
+            formSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => document.getElementById('post-title').focus(), 400);
+        };
+
+        // --- 4. HIỂN THỊ HỒ SƠ & DANH MỤC ĐỘNG ---
+        function safeExternalUrl(value) {
+            if (!value) return '';
+            try { const u = new URL(value, window.location.href); return ['http:', 'https:'].includes(u.protocol) ? u.href : ''; } catch { return ''; }
+        }
+
+        function renderProfile() {
+            document.getElementById('header-site-name').textContent = siteProfile.siteName || 'Trang Web Của Tôi';
+            document.getElementById('footer-site-name').textContent = siteProfile.siteName || 'Trang Web Của Tôi';
+            document.getElementById('profile-owner-name').textContent = siteProfile.ownerName || 'Chủ Trang Web';
+            document.getElementById('profile-bio').textContent = siteProfile.bio || '';
+
+            setupShareUrlDisplay();
+            updateSeoMetadata();
+
+            const avatarImg = document.getElementById('profile-avatar');
+            const avatarPlaceholder = document.getElementById('profile-avatar-placeholder');
+            if (siteProfile.avatar && siteProfile.avatar.trim() !== '') {
+                avatarImg.src = siteProfile.avatar;
+                avatarImg.classList.remove('hidden');
+                avatarPlaceholder.classList.add('hidden');
+            } else {
+                avatarImg.classList.add('hidden');
+                avatarPlaceholder.classList.remove('hidden');
+            }
+
+            const fbEl = document.getElementById('social-fb');
+            const igEl = document.getElementById('social-ig');
+            const customEl = document.getElementById('social-custom');
+
+            if (safeExternalUrl(siteProfile.facebook)) { fbEl.href = safeExternalUrl(siteProfile.facebook); fbEl.classList.remove('hidden'); } else { fbEl.classList.add('hidden'); }
+            if (safeExternalUrl(siteProfile.instagram)) { igEl.href = safeExternalUrl(siteProfile.instagram); igEl.classList.remove('hidden'); } else { igEl.classList.add('hidden'); }
+            if (safeExternalUrl(siteProfile.customLink)) { customEl.href = safeExternalUrl(siteProfile.customLink); customEl.classList.remove('hidden'); } else { customEl.classList.add('hidden'); }
+        }
+
+        function renderCategoryFilters() {
+            const container = document.getElementById('category-filters');
+            const uniqueCats = new Set(['Tất cả']);
+            postsList.forEach(p => {
+                if (p.category && p.category.trim() !== '') {
+                    uniqueCats.add(p.category.trim());
+                }
+            });
+
+            if (!uniqueCats.has(currentCategory)) {
+                currentCategory = 'Tất cả';
+            }
+
+            container.innerHTML = Array.from(uniqueCats).map(cat => {
+                const isActive = cat === currentCategory;
+                return `
+                    <button type="button" data-cat="${escapeHtml(cat)}"
+                        class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium transition shrink-0 ${isActive ? 'bg-slateink-900 text-white' : 'bg-cream-100 text-slateink-700 hover:bg-cream-200'}">
+                        ${escapeHtml(cat)}
+                    </button>
+                `;
+            }).join('');
+            container.querySelectorAll('[data-cat]').forEach(button => {
+                button.addEventListener('click', () => window.setCategory(button.dataset.cat));
+            });
+        }
+
+        function renderPosts() {
+            const grid = document.getElementById('posts-grid');
+            const emptyState = document.getElementById('empty-state');
+            document.getElementById('total-posts-count').textContent = postsList.length;
+
+            const filtered = postsList.filter(post => {
+                const matchCat = currentCategory === 'Tất cả' || post.category === currentCategory;
+                const q = searchQuery.toLowerCase().trim();
+                const matchSearch = !q ||
+                    (post.title && post.title.toLowerCase().includes(q)) ||
+                    (post.content && post.content.toLowerCase().includes(q)) ||
+                    (post.category && post.category.toLowerCase().includes(q));
+                return matchCat && matchSearch;
+            });
+
+            const heading = document.getElementById('feed-heading');
+            const statusText = document.getElementById('filter-status-text');
+            heading.textContent = currentCategory === 'Tất cả' ? 'Nội dung chia sẻ' : `Chuyên mục: ${currentCategory}`;
+            statusText.textContent = postsList.length > 0 ? `${filtered.length} bài viết` : '';
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+
+                const emptyTitle = document.getElementById('empty-title');
+                const emptyDesc = document.getElementById('empty-desc');
+                const emptyBtn = document.getElementById('empty-admin-action-btn');
+                const emptyBtnText = document.getElementById('empty-btn-text');
+
+                if (postsList.length === 0) {
+                    emptyTitle.textContent = 'Chưa có nội dung nào được đăng tải';
+                    emptyDesc.textContent = 'Không gian này hiện đang trống và sẵn sàng để bạn bắt đầu viết những dòng chia sẻ đầu tiên cho mọi người cùng đọc.';
+                    emptyBtn.classList.remove('hidden');
+                    emptyBtnText.textContent = isAdmin ? 'Đăng bài viết đầu tiên' : (siteProfile.adminPin ? 'Đăng nhập Chủ trang để đăng bài' : 'Thiết lập quyền Chủ trang để bắt đầu');
+                } else {
+                    emptyTitle.textContent = 'Không tìm thấy bài viết phù hợp';
+                    emptyDesc.textContent = 'Thử tìm kiếm với từ khóa khác hoặc quay lại danh mục Tất cả nhé.';
+                    emptyBtn.classList.add('hidden');
+                }
+                if (window.lucide) lucide.createIcons();
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(post => {
+                const isLiked = likedPostIds.has(post.id);
+                const commentsCount = Array.isArray(post.comments) ? post.comments.length : 0;
+                const hasImage = post.image && post.image.trim() !== '';
+                const hasDoc = post.docLink && post.docLink.trim() !== '';
+
+                return `
+                <article class="bg-white rounded-3xl border ${post.pinned ? 'border-tealaccent-600/40 ring-2 ring-tealaccent-600/10' : 'border-cream-200'} overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+                    <div>
+                        ${hasImage ? `
+                        <div onclick="openPostDetail('${post.id}')" class="relative h-48 sm:h-52 overflow-hidden bg-cream-100 cursor-pointer">
+                            <img src="${escapeHtml(post.image)}" onerror="this.parentElement.style.display='none'" alt="${escapeHtml(post.title)}" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute top-3.5 left-3.5 flex items-center gap-1.5">
+                                <span class="px-3 py-1 rounded-full text-xs font-medium bg-white/95 backdrop-blur-sm text-slateink-900 shadow-sm">
+                                    ${escapeHtml(post.category)}
+                                </span>
+                                ${post.pinned ? '<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-tealaccent-600 text-white shadow-sm">📌 Nổi bật</span>' : ''}
+                            </div>
+                        </div>
+                        ` : `
+                        <div class="px-6 pt-6 flex items-center justify-between">
+                            <div class="flex items-center gap-1.5">
+                                <span class="px-3 py-1 rounded-full text-xs font-medium bg-tealaccent-50 text-tealaccent-700 border border-tealaccent-600/15">
+                                    ${escapeHtml(post.category)}
+                                </span>
+                                ${post.pinned ? '<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-tealaccent-600 text-white">📌 Nổi bật</span>' : ''}
+                            </div>
+                            <span class="text-xs text-slateink-500">${formatDate(post.createdAt)}</span>
+                        </div>
+                        `}
+
+                        <div class="p-6 ${hasImage ? 'pt-5' : 'pt-3.5'}">
+                            ${hasImage ? `<div class="text-xs text-slateink-500 mb-1.5 flex items-center gap-2">
+                                <span>${formatDate(post.createdAt)}</span>
+                                ${hasDoc ? '<span class="text-tealaccent-700 font-medium">• Có liên kết đính kèm</span>' : ''}
+                            </div>` : ''}
+
+                            <h3 onclick="openPostDetail('${post.id}')" class="font-serif text-lg sm:text-xl font-semibold text-slateink-900 group-hover:text-tealaccent-700 transition cursor-pointer line-clamp-2 leading-snug">
+                                ${escapeHtml(post.title)}
+                            </h3>
+
+                            <p onclick="openPostDetail('${post.id}')" class="text-slateink-700 text-sm mt-2.5 line-clamp-3 leading-relaxed cursor-pointer">
+                                ${escapeHtml(post.content)}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="px-6 py-3.5 bg-cream-50/70 border-t border-cream-100 flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-4">
+                            <button onclick="toggleLikePost('${post.id}', event)" class="flex items-center gap-1.5 text-xs font-medium ${isLiked ? 'text-rose-600' : 'text-slateink-600 hover:text-rose-600'} transition">
+                                <i data-lucide="heart" class="w-4 h-4 ${isLiked ? 'fill-rose-500 text-rose-500' : ''}"></i>
+                                <span>${post.likes || 0}</span>
+                            </button>
+                            <button onclick="openPostDetail('${post.id}')" class="flex items-center gap-1.5 text-xs font-medium text-slateink-600 hover:text-slateink-900 transition">
+                                <i data-lucide="message-square" class="w-4 h-4"></i>
+                                <span>${commentsCount}</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-1.5">
+                            ${isAdmin ? `
+                                <button onclick="openEditPostModal('${post.id}')" class="p-1.5 rounded-lg bg-white border border-cream-300 text-slateink-700 hover:text-tealaccent-700 hover:border-tealaccent-600 transition" title="Chỉnh sửa">
+                                    <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <button onclick="promptDeletePost('${post.id}')" class="p-1.5 rounded-lg bg-white border border-cream-300 text-red-600 hover:bg-red-50 hover:border-red-300 transition" title="Xóa bài">
+                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                </button>
+                            ` : `
+                                <button onclick="openPostDetail('${post.id}')" class="text-xs font-medium text-tealaccent-700 hover:text-tealaccent-600 flex items-center gap-1">
+                                    <span>Xem chi tiết</span>
+                                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                </article>
+                `;
+            }).join('');
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // --- 5. XỬ LÝ TẢI ẢNH TỪ MÁY (NÉN NHẸ ĐỂ LƯU TRỰC TUYẾN) ---
+        window.handleImageUpload = function(event, targetInputId, previewBoxId) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 900;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > MAX_WIDTH) {
+                        height = Math.round((height * MAX_WIDTH) / width);
+                        width = MAX_WIDTH;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Nén JPEG chất lượng 0.78 để đảm bảo dung lượng nhỏ gọn lưu mượt trên Firestore
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.78);
+                    document.getElementById(targetInputId).value = compressedDataUrl;
+                    if (previewBoxId) {
+                        updateImagePreview(compressedDataUrl, previewBoxId);
+                    }
+                    showToast('Đã tải ảnh lên sẵn sàng!');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
+
+        window.updateImagePreview = function(url, previewBoxId) {
+            const box = document.getElementById(previewBoxId);
+            if (!box) return;
+            if (url && url.trim() !== '') {
+                box.querySelector('img').src = url;
+                box.classList.remove('hidden');
+            } else {
+                box.classList.add('hidden');
+            }
+        };
+
+        window.clearImageField = function(inputId, previewBoxId) {
+            document.getElementById(inputId).value = '';
+            document.getElementById(previewBoxId).classList.add('hidden');
+        };
+
+        window.resetCreateForm = function() {
+            document.getElementById('create-post-form').reset();
+            document.getElementById('post-pinned').checked = false;
+            document.getElementById('post-image-preview').classList.add('hidden');
+        };
+
+        // --- 6. THÊM, SỬA, XÓA BÀI VIẾT & HỒ SƠ ---
+        window.handleCreatePost = async function(e) {
+            e.preventDefault();
+            const title = document.getElementById('post-title').value.trim();
+            const category = document.getElementById('post-category').value.trim() || 'Chia sẻ';
+            const content = document.getElementById('post-content').value.trim();
+            const image = document.getElementById('post-image').value.trim();
+            const docLink = document.getElementById('post-doc-link').value.trim();
+            const pinned = document.getElementById('post-pinned').checked;
+
+            if (!title || !content) return;
+
+            const btn = document.getElementById('submit-post-btn');
+            btn.disabled = true;
+
+            const newPost = {
+                title,
+                category,
+                content,
+                image,
+                docLink,
+                pinned,
+                likes: 0,
+                comments: [],
+                createdAt: Date.now()
+            };
+
+            try {
+                if (useCloudStorage && currentUser) {
+                    const postsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'posts');
+                    await addDoc(postsColRef, newPost);
+                } else {
+                    newPost.id = 'post-' + Date.now();
+                    postsList.unshift(newPost);
+                    saveLocalState();
+                    renderCategoryFilters();
+                    renderPosts();
+                }
+
+                resetCreateForm();
+                showToast('Đã đăng bài viết lên trang của bạn!');
+            } catch (err) {
+                console.error("Lỗi đăng bài:", err);
+                showToast('Có lỗi khi đăng bài, nếu dùng ảnh quá lớn hãy thử ảnh nhẹ hơn.');
+            } finally {
+                btn.disabled = false;
+            }
+        };
+
+        window.openEditPostModal = function(postId) {
+            const post = postsList.find(p => p.id === postId);
+            if (!post) return;
+
+            document.getElementById('edit-post-id').value = post.id;
+            document.getElementById('edit-post-title').value = post.title;
+            document.getElementById('edit-post-category').value = post.category;
+            document.getElementById('edit-post-content').value = post.content;
+            document.getElementById('edit-post-image').value = post.image || '';
+            document.getElementById('edit-post-doc-link').value = post.docLink || '';
+            document.getElementById('edit-post-pinned').checked = Boolean(post.pinned);
+
+            openModal('edit-post-modal');
+        };
+
+        window.handleSaveEditedPost = async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-post-id').value;
+            const updatedFields = {
+                title: document.getElementById('edit-post-title').value.trim(),
+                category: document.getElementById('edit-post-category').value.trim() || 'Chia sẻ',
+                content: document.getElementById('edit-post-content').value.trim(),
+                image: document.getElementById('edit-post-image').value.trim(),
+                docLink: document.getElementById('edit-post-doc-link').value.trim(),
+                pinned: document.getElementById('edit-post-pinned').checked
+            };
+
+            try {
+                if (useCloudStorage && currentUser) {
+                    const postRef = doc(db, 'artifacts', appId, 'public', 'data', 'posts', id);
+                    await updateDoc(postRef, updatedFields);
+                } else {
+                    const idx = postsList.findIndex(p => p.id === id);
+                    if (idx !== -1) {
+                        postsList[idx] = { ...postsList[idx], ...updatedFields };
+                        saveLocalState();
+                        renderCategoryFilters();
+                        renderPosts();
+                    }
+                }
+                closeModal('edit-post-modal');
+                showToast('Đã cập nhật bài viết!');
+            } catch (err) {
+                console.error("Lỗi cập nhật bài:", err);
+                showToast('Không thể lưu thay đổi.');
+            }
+        };
+
+        window.promptDeletePost = function(postId) {
+            const confirmBtn = document.getElementById('confirm-delete-btn');
+            confirmBtn.onclick = async () => {
+                try {
+                    if (useCloudStorage && currentUser) {
+                        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'posts', postId));
+                    } else {
+                        postsList = postsList.filter(p => p.id !== postId);
+                        saveLocalState();
+                        renderCategoryFilters();
+                        renderPosts();
+                    }
+                    closeModal('delete-confirm-modal');
+                    showToast('Đã xóa bài viết.');
+                } catch (err) {
+                    console.error("Lỗi xóa bài:", err);
+                }
+            };
+            openModal('delete-confirm-modal');
+        };
+
+        window.openEditProfileModal = function() {
+            document.getElementById('edit-site-name').value = siteProfile.siteName;
+            document.getElementById('edit-owner-name').value = siteProfile.ownerName;
+            document.getElementById('edit-owner-bio').value = siteProfile.bio;
+            document.getElementById('edit-owner-avatar').value = siteProfile.avatar || '';
+            document.getElementById('edit-social-fb').value = siteProfile.facebook || '';
+            document.getElementById('edit-social-ig').value = siteProfile.instagram || '';
+            document.getElementById('edit-social-custom').value = siteProfile.customLink || '';
+            document.getElementById('edit-seo-keywords').value = siteProfile.seoKeywords || '';
+            document.getElementById('edit-published-url').value = siteProfile.publishedUrl || '';
+            document.getElementById('edit-admin-pin').value = siteProfile.adminPin || '';
+            openModal('edit-profile-modal');
+        };
+
+        window.handleSaveProfile = async function(e) {
+            e.preventDefault();
+            const updatedProfile = {
+                siteName: document.getElementById('edit-site-name').value.trim(),
+                ownerName: document.getElementById('edit-owner-name').value.trim(),
+                bio: document.getElementById('edit-owner-bio').value.trim(),
+                avatar: document.getElementById('edit-owner-avatar').value.trim(),
+                facebook: document.getElementById('edit-social-fb').value.trim(),
+                instagram: document.getElementById('edit-social-ig').value.trim(),
+                customLink: document.getElementById('edit-social-custom').value.trim(),
+                seoKeywords: document.getElementById('edit-seo-keywords').value.trim(),
+                publishedUrl: document.getElementById('edit-published-url').value.trim(),
+                adminPin: document.getElementById('edit-admin-pin').value.trim()
+            };
+
+            try {
+                if (useCloudStorage && currentUser) {
+                    const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'profile');
+                    await setDoc(profileRef, updatedProfile);
+                } else {
+                    siteProfile = updatedProfile;
+                    saveLocalState();
+                    renderProfile();
+                }
+                closeModal('edit-profile-modal');
+                showToast('Đã cập nhật thông tin hồ sơ & thẻ SEO!');
+            } catch (err) {
+                console.error("Lỗi lưu hồ sơ:", err);
+                showToast('Có lỗi khi lưu thông tin.');
+            }
+        };
+
+        // --- 7. CHI TIẾT BÀI VIẾT, THẢ TIM & BÌNH LUẬN ---
+        window.openPostDetail = function(postId) {
+            const post = postsList.find(p => p.id === postId);
+            if (!post) return;
+            activePostId = postId;
+            renderPostDetailModal(post);
+            openModal('post-detail-modal');
+        };
+
+        function renderPostDetailModal(post) {
+            document.getElementById('detail-category').textContent = post.category;
+            document.getElementById('detail-date').textContent = formatDate(post.createdAt);
+            document.getElementById('detail-title').textContent = post.title;
+            document.getElementById('detail-content').textContent = post.content;
+
+            const imgWrap = document.getElementById('detail-image-wrapper');
+            const imgEl = document.getElementById('detail-image');
+            if (post.image && post.image.trim() !== '') {
+                imgEl.src = post.image;
+                imgWrap.classList.remove('hidden');
+            } else {
+                imgWrap.classList.add('hidden');
+            }
+
+            const docWrap = document.getElementById('detail-doc-wrapper');
+            if (post.docLink && post.docLink.trim() !== '') {
+                document.getElementById('detail-doc-url').textContent = post.docLink;
+                document.getElementById('detail-doc-btn').href = post.docLink;
+                docWrap.classList.remove('hidden');
+            } else {
+                docWrap.classList.add('hidden');
+            }
+
+            const isLiked = likedPostIds.has(post.id);
+            document.getElementById('detail-likes-count').textContent = post.likes || 0;
+            const likeIcon = document.getElementById('detail-like-icon');
+            if (isLiked) {
+                likeIcon.classList.add('fill-rose-500');
+            } else {
+                likeIcon.classList.remove('fill-rose-500');
+            }
+
+            const comments = Array.isArray(post.comments) ? post.comments : [];
+            document.getElementById('detail-comments-count').textContent = comments.length;
+            const commentsListEl = document.getElementById('comments-list');
+
+            if (comments.length === 0) {
+                commentsListEl.innerHTML = `<p class="text-xs text-slateink-500 italic py-3 text-center">Chưa có bình luận nào. Hãy để lại lời nhắn đầu tiên nhé!</p>`;
+            } else {
+                commentsListEl.innerHTML = comments.map(c => `
+                    <div class="bg-cream-50/80 border border-cream-200 rounded-2xl p-3.5 flex items-start justify-between gap-3">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="font-semibold text-xs text-slateink-900">${escapeHtml(c.author)}</span>
+                                <span class="text-[11px] text-slateink-500">${formatDate(c.createdAt)}</span>
+                            </div>
+                            <p class="text-sm text-slateink-700 leading-relaxed">${escapeHtml(c.text)}</p>
+                        </div>
+                        ${isAdmin ? `
+                            <button onclick="deleteComment('${post.id}', '${c.id}')" class="text-slateink-400 hover:text-red-600 p-1" title="Xóa bình luận">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        window.toggleLikePost = async function(postId, event) {
+            if (event) event.stopPropagation();
+            const post = postsList.find(p => p.id === postId);
+            if (!post) return;
+
+            const alreadyLiked = likedPostIds.has(postId);
+            const newLikes = Math.max(0, (post.likes || 0) + (alreadyLiked ? -1 : 1));
+
+            if (alreadyLiked) {
+                likedPostIds.delete(postId);
+            } else {
+                likedPostIds.add(postId);
+            }
+
+            post.likes = newLikes;
+            if (!useCloudStorage) saveLocalState();
+            renderPosts();
+            if (activePostId === postId) {
+                renderPostDetailModal(post);
+            }
+
+            if (useCloudStorage && currentUser) {
+                try {
+                    const postRef = doc(db, 'artifacts', appId, 'public', 'data', 'posts', postId);
+                    await updateDoc(postRef, { likes: newLikes });
+                } catch (err) {
+                    console.error("Lỗi cập nhật lượt thích:", err);
+                }
+            }
+        };
+
+        window.toggleLikeCurrentPost = function() {
+            if (activePostId) toggleLikePost(activePostId);
+        };
+
+        window.handleAddComment = async function(e) {
+            e.preventDefault();
+            if (!activePostId) return;
+
+            const author = document.getElementById('comment-author').value.trim();
+            const text = document.getElementById('comment-text').value.trim();
+            if (!author || !text) return;
+
+            const post = postsList.find(p => p.id === activePostId);
+            if (!post) return;
+
+            const newComment = {
+                id: 'cmt-' + Date.now(),
+                author,
+                text,
+                createdAt: Date.now()
+            };
+
+            const updatedComments = [...(post.comments || []), newComment];
+
+            try {
+                if (useCloudStorage && currentUser) {
+                    const postRef = doc(db, 'artifacts', appId, 'public', 'data', 'posts', activePostId);
+                    await updateDoc(postRef, { comments: updatedComments });
+                } else {
+                    post.comments = updatedComments;
+                    saveLocalState();
+                    renderPostDetailModal(post);
+                    renderPosts();
+                }
+                document.getElementById('comment-text').value = '';
+                showToast('Đã gửi bình luận!');
+            } catch (err) {
+                console.error("Lỗi gửi bình luận:", err);
+            }
+        };
+
+        window.deleteComment = async function(postId, commentId) {
+            const post = postsList.find(p => p.id === postId);
+            if (!post) return;
+            const updatedComments = (post.comments || []).filter(c => c.id !== commentId);
+
+            try {
+                if (useCloudStorage && currentUser) {
+                    const postRef = doc(db, 'artifacts', appId, 'public', 'data', 'posts', postId);
+                    await updateDoc(postRef, { comments: updatedComments });
+                } else {
+                    post.comments = updatedComments;
+                    saveLocalState();
+                    renderPostDetailModal(post);
+                    renderPosts();
+                }
+                showToast('Đã xóa bình luận.');
+            } catch (err) {
+                console.error("Lỗi xóa bình luận:", err);
+            }
+        };
+
+        // --- 8. TIỆN ÍCH CHUNG ---
+        window.setCategory = function(cat) {
+            currentCategory = cat;
+            renderCategoryFilters();
+            renderPosts();
+        };
+
+        window.handleSearch = function(val) {
+            searchQuery = val;
+            renderPosts();
+        };
+
+        window.resetFilters = function(e) {
+            if (e) e.preventDefault();
+            searchQuery = '';
+            document.getElementById('search-input').value = '';
+            setCategory('Tất cả');
+        };
+
+        window.openModal = function(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeModal = function(id) {
+            document.getElementById(id).classList.add('hidden');
+            if (id === 'post-detail-modal') activePostId = null;
+            const anotherOpen = [...document.querySelectorAll('[id$="-modal"]')].some(el => !el.classList.contains('hidden'));
+            document.body.style.overflow = anotherOpen ? 'hidden' : '';
+        };
+
+        function formatDate(timestamp) {
+            if (!timestamp) return 'Vừa xong';
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slateink-900 text-white text-xs sm:text-sm px-4 py-3 rounded-2xl shadow-lg flex items-center gap-2 fade-in pointer-events-auto';
+            toast.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 text-tealaccent-100 shrink-0"></i><span>${escapeHtml(message)}</span>`;
+            container.appendChild(toast);
+            if (window.lucide) lucide.createIcons();
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // --- 9. KHỞI TẠO ỨNG DỤNG (LOCAL FALLBACK + FIREBASE REALTIME) ---
+        const LOCAL_STORAGE_KEY = 'personal_share_space_v1';
+
+        function loadLocalState() {
+            try {
+                const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                if (parsed.profile) {
+                    siteProfile = { ...siteProfile, ...parsed.profile };
+                }
+                if (Array.isArray(parsed.posts)) {
+                    postsList = parsed.posts;
+                }
+            } catch (err) {
+                console.warn('Không thể đọc dữ liệu cục bộ:', err);
+            }
+        }
+
+        function saveLocalState() {
+            try {
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({
+                    profile: siteProfile,
+                    posts: postsList
+                }));
+            } catch (err) {
+                console.warn('Không thể lưu dữ liệu cục bộ:', err);
+            }
+        }
+
+        async function initApp() {
+            const loadingEl = document.getElementById('loading-state');
+            loadLocalState();
+            renderProfile();
+            updateAdminButtonLabels();
+            renderCategoryFilters();
+            renderPosts();
+
+            if (firebaseConfig && firebaseConfig.apiKey) {
+                try {
+                    app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    currentUser = auth.currentUser;
+                    useCloudStorage = true;
+
+                    const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'profile');
+                    onSnapshot(profileRef, (snap) => {
+                        if (snap.exists()) {
+                            siteProfile = { ...siteProfile, ...snap.data() };
+                            saveLocalState();
+                            renderProfile();
+                            updateAdminButtonLabels();
+                            if (window.lucide) lucide.createIcons();
+                        }
+                    }, (err) => {
+                        console.error('Lỗi đồng bộ hồ sơ:', err);
+                    });
+
+                    const postsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'posts');
+                    onSnapshot(postsColRef, (snapshot) => {
+                        const cloudPosts = [];
+                        snapshot.forEach((docSnap) => {
+                            cloudPosts.push({ id: docSnap.id, ...docSnap.data() });
+                        });
+                        cloudPosts.sort((a, b) => {
+                            if (Boolean(b.pinned) !== Boolean(a.pinned)) {
+                                return b.pinned ? 1 : -1;
+                            }
+                            return (b.createdAt || 0) - (a.createdAt || 0);
+                        });
+                        postsList = cloudPosts;
+                        saveLocalState();
+                        renderCategoryFilters();
+                        renderPosts();
+                    }, (err) => {
+                        console.error('Lỗi đồng bộ bài viết:', err);
+                    });
+                } catch (err) {
+                    console.warn('Chuyển sang chế độ lưu trữ trình duyệt:', err);
+                    useCloudStorage = false;
+                }
+            } else {
+                useCloudStorage = false;
+            }
+
+            const yearEl = document.getElementById('footer-year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+            if (loadingEl) {
+                loadingEl.classList.add('hidden');
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
